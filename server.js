@@ -4,8 +4,22 @@ const mongoose = require('mongoose');
 const app = express();
 const PORT = process.env.PORT || 5000;
 const cors = require('cors');
+const mongoUri = process.env.MONGO_URI || 
+  'mongodb+srv://sravanikondapallisravani_db_user:3LTzt4JC7ByuisXE@cluster0.y4aytjy.mongodb.net/';
 
-mongoose.connect('mongodb://localhost/fruitvegmarke');
+console.log('Attempting to connect to MongoDB at:', mongoUri);
+
+mongoose
+  .connect(mongoUri, {
+    dbName: 'fruit_market',
+  })
+  .then(() => {
+    console.log('Connected to MongoDB successfully');
+  })
+  .catch((err) => {
+    console.error('MongoDB connection error:', err.message);
+    console.log('Messages will not persist until database connection is established');
+  });
 
 app.use(express.json());
 app.use(cors()); // Use the cors middleware
